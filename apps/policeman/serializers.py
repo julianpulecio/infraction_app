@@ -7,7 +7,7 @@ from django.contrib.auth.password_validation import validate_password
 from apps.policeman.validators import validate_only_numerical
 
 
-class PolicemanWriteSerializer(serializers.ModelSerializer):
+class PolicemanCreateSerializer(serializers.ModelSerializer):
     identification_number = serializers.CharField(validators=[
         validate_only_numerical,
         UniqueValidator(queryset=Policeman.objects.all())
@@ -25,7 +25,6 @@ class PolicemanWriteSerializer(serializers.ModelSerializer):
                 "The password and confirm_password fields must match",
                 code='passwords_not_match',
             )
-        del attrs['confirm_password']
         return attrs
 
     def create(self, validated_data):
@@ -34,6 +33,54 @@ class PolicemanWriteSerializer(serializers.ModelSerializer):
             password=validated_data.get('password'),
             name=validated_data.get('name')
         )
+
+
+class PolicemanUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Policeman
+        fields = ['name']
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
+
+
+class PolicemanUpdatePasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(validators=[validate_password])
+    confirm_password = serializers.CharField()
+
+    class Meta:
+        model = Policeman
+        fields = ['password', 'confirm_password']
+
+    def validate(self, attrs):
+        if ('password' not in attrs) and ('confirm_password' not in attrs):
+            return attrs
+
+        if ('password' not in attrs) and ('confirm_password' in attrs):
+            raise ValidationError(
+                "password field must not be null",
+                code='passwords_not_match',
+            )
+
+        if ('confirm_password' not in attrs) and ('password' in attrs):
+            raise ValidationError(
+                "confirm_password field must not be null",
+                code='passwords_not_match',
+            )
+
+        if attrs.get('password') != attrs.get('confirm_password'):
+            raise ValidationError(
+                "The password and confirm_password fields must match",
+                code='passwords_not_match',
+            )
+        return attrs
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data.get('password'))
+        instance.save()
+        return instance
 
 
 class PolicemanReadSerializer(serializers.ModelSerializer):
