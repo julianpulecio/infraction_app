@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'apps.person',
     'apps.vehicle',
     'apps.infraction',
-    'apps.policeman'
+    'apps.policeman',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
