@@ -1,4 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -20,8 +21,11 @@ class PolicemanViewSet(ViewSet):
         policeman_serialized = PolicemanReadSerializer(policeman)
         return Response(policeman_serialized.data)
 
-    def retrieve(self, request, pk=None):
-        pass
+    def retrieve(self, request, identification_number=None):
+        queryset = Policeman.objects.all()
+        policeman = get_object_or_404(queryset, identification_number=identification_number)
+        policeman_serialized = PolicemanReadSerializer(policeman)
+        return Response(policeman_serialized.data)
 
     @swagger_auto_schema(request_body=PolicemanWriteSerializer)
     def update(self, request, pk=None):
