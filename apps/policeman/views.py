@@ -8,7 +8,9 @@ from apps.policeman.serializers import PolicemanWriteSerializer, PolicemanReadSe
 
 class PolicemanViewSet(ViewSet):
     def list(self, request):
-        pass
+        queryset = Policeman.objects.all()
+        policemen_serialized = PolicemanReadSerializer(queryset, many=True)
+        return Response(policemen_serialized.data)
 
     @swagger_auto_schema(request_body=PolicemanWriteSerializer)
     def create(self, request):
