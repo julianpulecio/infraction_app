@@ -102,6 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {'NAME': 'apps.policeman.validators.UppercaseValidator', },
+    {'NAME': 'apps.policeman.validators.LowercaseValidator', },
+    {'NAME': 'apps.policeman.validators.SymbolValidator', },
 ]
 
 AUTH_USER_MODEL = "policeman.Policeman"

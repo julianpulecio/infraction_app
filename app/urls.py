@@ -15,13 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from apps.dfr_yasg.urls import urlpatterns
+from apps.dfr_yasg.urls import urlpatterns_yasg
 
-urlpatterns = urlpatterns + [
+urlpatterns =  [
     path('admin/', admin.site.urls),
     path('person/', include('apps.person.urls')),
     path('vehicle/', include('apps.vehicle.urls')),
     path('policeman/', include('apps.policeman.urls')),
 ]
+
+urlpatterns = urlpatterns + urlpatterns_yasg
+
 
 
