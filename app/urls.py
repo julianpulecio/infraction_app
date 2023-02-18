@@ -19,6 +19,7 @@ from apps.dfr_yasg.urls import urlpatterns
 
 urlpatterns = urlpatterns + [
     path('admin/', admin.site.urls),
+    path('person/', include('apps.person.urls'))
 ]
 
 
