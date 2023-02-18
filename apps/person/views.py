@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.viewsets import ViewSet
 
