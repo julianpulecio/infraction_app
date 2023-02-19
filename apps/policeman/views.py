@@ -5,8 +5,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from apps.policeman.models import Policeman
-from apps.policeman.serializers import PolicemanCreateSerializer, PolicemanReadSerializer, PolicemanUpdateSerializer, \
+from apps.policeman.serializers import (
+    PolicemanCreateSerializer,
+    PolicemanReadSerializer,
+    PolicemanUpdateSerializer,
     PolicemanUpdatePasswordSerializer
+)
 
 
 class PolicemanViewSet(ViewSet):
@@ -35,7 +39,7 @@ class PolicemanViewSet(ViewSet):
         policeman = get_object_or_404(queryset, identification_number=identification_number)
         serializer = PolicemanUpdateSerializer(policeman, data=request.data)
         serializer.is_valid(raise_exception=True)
-        policeman_updated = serializer.update(policeman,serializer.validated_data)
+        policeman_updated = serializer.update(policeman, serializer.validated_data)
         policeman_updated_serialized = PolicemanReadSerializer(policeman_updated)
         return Response(policeman_updated_serialized.data)
 
@@ -50,5 +54,8 @@ class PolicemanViewSet(ViewSet):
         policeman_updated_serialized = PolicemanReadSerializer(policeman_updated)
         return Response(policeman_updated_serialized.data)
 
-    def destroy(self, request, pk=None):
-        pass
+    def destroy(self, request, identification_number=None):
+        queryset = Policeman.objects.all()
+        policeman = get_object_or_404(queryset, identification_number=identification_number)
+        policeman.delete()
+        return Response({'response': 'the user was deleted successfully'})

@@ -1,4 +1,4 @@
-from django.urls import re_path
+from django.urls import re_path, path
 from apps.dfr_yasg.views import schema_view
 
 
