@@ -3,7 +3,6 @@ from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-
 from apps.policeman.models import Policeman
 from apps.policeman.serializers import (
     PolicemanCreateSerializer,
