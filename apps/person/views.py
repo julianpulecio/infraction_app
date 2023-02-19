@@ -1,4 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from apps.person.serializers import PersonSerializer
@@ -10,7 +11,11 @@ class PersonViewSet(ViewSet):
 
     @swagger_auto_schema(request_body=PersonSerializer)
     def create(self, request):
-        pass
+        serializer = PersonSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        person = serializer.create(serializer.validated_data)
+        person_serialized = PersonSerializer(person)
+        return Response(person_serialized.data)
 
     def retrieve(self, request, pk=None):
         pass
