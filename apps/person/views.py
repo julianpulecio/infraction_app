@@ -3,7 +3,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from apps.person.models import Person
-from apps.person.serializers import PersonSerializer
+from apps.person.serializers import PersonSerializer, PersonUpdateSerializer
 
 
 class PersonViewSet(ViewSet):
@@ -26,9 +26,15 @@ class PersonViewSet(ViewSet):
         person_serialized = PersonSerializer(person)
         return Response(person_serialized.data)
 
-    @swagger_auto_schema(request_body=PersonSerializer)
-    def update(self, request, pk=None):
-        pass
+    @swagger_auto_schema(request_body=PersonUpdateSerializer)
+    def update(self, request, email=None):
+        queryset = Person.objects.all()
+        person = get_object_or_404(queryset, email=email)
+        serializer = PersonUpdateSerializer(person, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        person_updated = serializer.update(person, serializer.validated_data)
+        person_updated_serialized = PersonSerializer(person_updated)
+        return Response(person_updated_serialized.data)
 
     def destroy(self, request, pk=None):
         pass
