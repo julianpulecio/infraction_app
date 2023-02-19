@@ -37,5 +37,8 @@ class VehicleViewSet(ViewSet):
         vehicle_updated_serialized = VehicleSerializer(vehicle_updated)
         return Response(vehicle_updated_serialized.data)
 
-    def destroy(self, request, pk=None):
-        pass
+    def destroy(self, request, plate=None):
+        queryset = Vehicle.objects.all()
+        vehicle = get_object_or_404(queryset, plate=plate)
+        vehicle.delete()
+        return Response({'response': 'the vehicle was deleted successfully'})
