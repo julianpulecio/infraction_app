@@ -1,4 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from apps.person.models import Person
@@ -19,8 +20,11 @@ class PersonViewSet(ViewSet):
         person_serialized = PersonSerializer(person)
         return Response(person_serialized.data)
 
-    def retrieve(self, request, pk=None):
-        pass
+    def retrieve(self, request, email=None):
+        queryset = Person.objects.all()
+        person = get_object_or_404(queryset, email=email)
+        person_serialized = PersonSerializer(person)
+        return Response(person_serialized.data)
 
     @swagger_auto_schema(request_body=PersonSerializer)
     def update(self, request, pk=None):
