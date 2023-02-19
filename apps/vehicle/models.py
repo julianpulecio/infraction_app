@@ -1,5 +1,6 @@
 from django.db import models
 from apps.person.models import Person
+from apps.vehicle.validators import validate_plate_format
 
 
 class Vehicle(models.Model):
