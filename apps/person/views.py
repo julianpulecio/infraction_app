@@ -36,5 +36,8 @@ class PersonViewSet(ViewSet):
         person_updated_serialized = PersonSerializer(person_updated)
         return Response(person_updated_serialized.data)
 
-    def destroy(self, request, pk=None):
-        pass
+    def destroy(self, request, email=None):
+        queryset = Person.objects.all()
+        person = get_object_or_404(queryset, email=email)
+        person.delete()
+        return Response({'response': 'the person was deleted successfully'})
