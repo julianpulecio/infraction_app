@@ -9,3 +9,8 @@ class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = '__all__'
+
+class VehicleUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vehicle
+        fields = ['brand','color','person']

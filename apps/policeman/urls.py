@@ -1,9 +1,6 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
 from apps.policeman.views import PolicemanViewSet
 
-# router = DefaultRouter()
-# router.register('', PolicemanViewSet, basename='policeman')
 urlpatterns = [
     path('', PolicemanViewSet.as_view({
         'get': 'list',
