@@ -27,7 +27,7 @@ urlpatterns =  [
     path('vehicle/', include('apps.vehicle.urls')),
     path('policeman/', include('apps.policeman.urls')),
     path('infraction/', include('apps.infraction.urls')),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
