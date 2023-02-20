@@ -1,5 +1,6 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -8,6 +9,8 @@ from apps.vehicle.serializers import VehicleSerializer, VehicleUpdateSerializer
 
 
 class VehicleViewSet(ViewSet):
+    permission_classes = [IsAuthenticated]
+
     def list(self, request):
         queryset = Vehicle.objects.all()
         policemen_serialized = VehicleSerializer(queryset, many=True)

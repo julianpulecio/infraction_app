@@ -39,3 +39,10 @@ class InfractionReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Infraction
         fields = '__all__'
+
+
+class InfractionVehiclesSerializer(serializers.ModelSerializer):
+    infractions = InfractionReadSerializer(Infraction, many=True)
+    class Meta:
+        model = Vehicle
+        fields = ['infractions']

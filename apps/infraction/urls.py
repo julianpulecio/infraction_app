@@ -4,5 +4,5 @@ from apps.infraction.views import InfractionViewSet
 urlpatterns = [
     path('', InfractionViewSet.as_view({
         'post': 'create'
-    }), name='infraction-list'),
+    }), name='infraction-create'),
 ]

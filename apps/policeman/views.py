@@ -4,7 +4,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-
 from app.permissions import PermissionsPerMethodMixin, OwnProfilePermission
 from apps.policeman.models import Policeman
 from apps.policeman.serializers import (
@@ -14,8 +13,8 @@ from apps.policeman.serializers import (
     PolicemanUpdatePasswordSerializer
 )
 
-class PolicemanViewSet(PermissionsPerMethodMixin,ViewSet):
 
+class PolicemanViewSet(PermissionsPerMethodMixin, ViewSet):
     @permission_classes((IsAuthenticated,))
     def list(self, request):
         queryset = Policeman.objects.all()
@@ -30,7 +29,7 @@ class PolicemanViewSet(PermissionsPerMethodMixin,ViewSet):
         policeman_serialized = PolicemanReadSerializer(policeman)
         return Response(policeman_serialized.data)
 
-    @permission_classes((IsAuthenticated,OwnProfilePermission,))
+    @permission_classes((IsAuthenticated, OwnProfilePermission,))
     def retrieve(self, request, identification_number=None):
         queryset = Policeman.objects.all()
         policeman = get_object_or_404(queryset, identification_number=identification_number)

@@ -10,5 +10,8 @@ urlpatterns = [
         'get': 'retrieve',
         'put': 'update',
         'delete': 'destroy'
-    }), name='person-detail')
+    }), name='person-detail'),
+    path('generar_informe/<str:email>/', PersonViewSet.as_view({
+        'get': 'get_all_infractions'
+    }), name='person-infractions'),
 ]
