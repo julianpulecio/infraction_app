@@ -41,8 +41,17 @@ class InfractionReadSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class InfractionVehicleReadSerializer(serializers.ModelSerializer):
+    policeman = PolicemanReadSerializer(Policeman)
+
+    class Meta:
+        model = Infraction
+        fields = '__all__'
+
+
 class InfractionVehiclesSerializer(serializers.ModelSerializer):
-    infractions = InfractionReadSerializer(Infraction, many=True)
+    infractions = InfractionVehicleReadSerializer(Infraction, many=True)
+
     class Meta:
         model = Vehicle
-        fields = ['infractions']
+        fields = ['plate','brand','color','infractions']

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from apps.vehicle.models import Vehicle
-from apps.vehicle.serializers import VehicleSerializer, VehicleUpdateSerializer
+from apps.vehicle.serializers import VehicleSerializer, VehicleUpdateSerializer, VehicleReadSerializer
 
 
 class VehicleViewSet(ViewSet):
@@ -13,7 +13,7 @@ class VehicleViewSet(ViewSet):
 
     def list(self, request):
         queryset = Vehicle.objects.all()
-        policemen_serialized = VehicleSerializer(queryset, many=True)
+        policemen_serialized = VehicleReadSerializer(queryset, many=True)
         return Response(policemen_serialized.data)
 
     @swagger_auto_schema(request_body=VehicleSerializer)
@@ -26,9 +26,9 @@ class VehicleViewSet(ViewSet):
 
     def retrieve(self, request, plate=None):
         queryset = Vehicle.objects.all()
-        policeman = get_object_or_404(queryset, plate=plate)
-        policeman_serialized = VehicleSerializer(policeman)
-        return Response(policeman_serialized.data)
+        vehicle = get_object_or_404(queryset, plate=plate)
+        vehicle_serialized = VehicleReadSerializer(vehicle)
+        return Response(vehicle_serialized.data)
 
     @swagger_auto_schema(request_body=VehicleUpdateSerializer)
     def update(self, request, plate=None):
